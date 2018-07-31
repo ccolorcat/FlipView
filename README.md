@@ -39,6 +39,6 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.ccolorcat:FlipView:v1.0.2'
+	        implementation 'com.github.ccolorcat:FlipView:v1.0.3'
 	}
 ```
