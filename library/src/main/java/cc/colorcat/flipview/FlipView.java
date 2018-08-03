@@ -362,7 +362,7 @@ public class FlipView extends FrameLayout {
         View view = LayoutInflater.from(context).inflate(layoutResId, group, false);
         V v = view.findViewById(id);
         if (v == null) {
-            throw new NullPointerException("Can't find view by " + id);
+            throw new NullPointerException("Can't find view by " + context.getResources().getResourceName(id));
         }
         group.addView(view);
         return v;
