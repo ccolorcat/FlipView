@@ -11,16 +11,16 @@
 
 ## 2. xml 属性与方法说明
 
-| xml 属性         | 格式类型  | 方法                                | 功能                                                         |
-| ---------------- | --------- | ----------------------------------- | ------------------------------------------------------------ |
-| app:autoStart    | boolean   | setAutoStart()/isAutoStart()        | 是否启用自动播放                                             |
-| app:pauseOnTouch | boolean   | setPauseOnTouch()/isPauseOnTouch()  | 是否启用在用户触摸 FlipView 时暂停，离开时恢复。             |
-| flipInterval     | int       | setFlipInterval()/getFlipInterval() | 设置轮播间隔                                                 |
-| flipperLayout    | reference | 无                                  | LayouRes, 自定义布局中必须含有 ViewPager，且 id 为 "flipper". |
-| titleEnabled     | boolean   | 无                                  | 是否显示 title，且 title 必须通过 PagerAdater.getPageTitle 返回。 |
-| titleLayout      | reference | 无                                  | LayouRes, 自定义布局中必须含有 TextView，且 id 为 "title".   |
-| indicatorEnabled | boolean   | 无                                  | 是否显示 indicator                                           |
-| indicatorLayout  | reference | 无                                  | LayouRes, 自定义布局中必须含有 TabLayout，且 id 为 "indicator". |
+| xml 属性             | 格式类型  | 方法                                | 功能                                                         |
+| -------------------- | --------- | ----------------------------------- | ------------------------------------------------------------ |
+| app:autoStart        | boolean   | setAutoStart()/isAutoStart()        | 是否启用自动播放                                             |
+| app:pauseOnTouch     | boolean   | setPauseOnTouch()/isPauseOnTouch()  | 是否启用在用户触摸 FlipView 时暂停，离开时恢复。             |
+| app:flipInterval     | int       | setFlipInterval()/getFlipInterval() | 设置轮播间隔                                                 |
+| app:flipperLayout    | reference | 无                                  | LayouRes, 自定义布局中必须含有 ViewPager，且 id 为 "flipper". |
+| app:titleEnabled     | boolean   | 无                                  | 是否显示 title，且 title 必须通过 PagerAdater.getPageTitle 返回。 |
+| app:titleLayout      | reference | 无                                  | LayouRes, 自定义布局中必须含有 TextView，且 id 为 "title".   |
+| app:indicatorEnabled | boolean   | 无                                  | 是否显示 indicator                                           |
+| app:indicatorLayout  | reference | 无                                  | LayouRes, 自定义布局中必须含有 TabLayout，且 id 为 "indicator". |
 
 ## 3. 使用方法
 
