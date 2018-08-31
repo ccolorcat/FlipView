@@ -43,6 +43,6 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.github.ccolorcat:FlipView:v2.0.1'
+    implementation 'com.github.ccolorcat:FlipView:v2.0.2'
 }
 ```

@@ -311,8 +311,10 @@ public class FlipView extends FrameLayout {
         mSize = mAdapter.getCount();
         if (mSize > 1) {
             if (mInfiniteLoop) {
-                hideIndicatorIcon(0);
-                hideIndicatorIcon(mSize - 1);
+                if (mIndicator != null) {
+                    hideIndicatorIcon(0);
+                    hideIndicatorIcon(mSize - 1);
+                }
                 if (mCurrent == 0) {
                     mFlipper.setCurrentItem(1, false);
                 }
