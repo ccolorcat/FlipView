@@ -4,10 +4,12 @@
 
 ## 1. 特性
 
-* View 的创建与数据绑定等由 PagerAdapter 决定。
+* View 的创建与数据绑定等由 FlipAdapter 决定（2.0.0 之前为 PagerAdapter）。
 * 支持 title 和 indicator 等的自定义。
 * 支持自动轮播，即在窗口可见时自动播放，不可见时自动暂停。
 * 支持用户触摸 FlipView 时暂停轮播，离开时恢复。
+* 支持无限循环轮播和滑动。
+* 支持反向轮播。
 
 ## 2. xml 属性与方法说明
 
@@ -21,6 +23,8 @@
 | app:titleLayout      | reference | 无                                  | LayouRes, 自定义布局中必须含有 TextView，且 id 为 "title".   |
 | app:indicatorEnabled | boolean   | 无                                  | 是否显示 indicator                                           |
 | app:indicatorLayout  | reference | 无                                  | LayouRes, 自定义布局中必须含有 TabLayout，且 id 为 "indicator". |
+| app:infiniteLoop     | boolean   | 无                                  | 是否启用无限循环轮播，默认为 false.                          |
+| app:reverse          | boolean   | setReverse()/isReverse()            | 是否启用反向轮播，默认为 false.                              |
 
 ## 3. 使用方法
 
@@ -39,6 +43,6 @@
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.ccolorcat:FlipView:v1.0.4'
+	        implementation 'com.github.ccolorcat:FlipView:v2.0.0'
 	}
 ```

@@ -51,13 +51,16 @@ public class FlipView extends FrameLayout {
     private static final int DEFAULT_INTERVAL = 2000;
 
     private ViewPager mFlipper;
-    private PagerAdapter mAdapter;
+    private FlipAdapter mAdapter;
     private int mSize = 0;
     private TextView mTitle;
+    private TabLayout mIndicator;
 
     private int mCurrent = 0;
     private int mFlipInterval;
 
+    private boolean mInfiniteLoop = false;
+    private boolean mReverse = false;
     private boolean mAutoStart = false;
     private boolean mPauseOnTouch = false;
 
@@ -99,6 +102,8 @@ public class FlipView extends FrameLayout {
         int titleLayout = ta.getResourceId(R.styleable.FlipView_titleLayout, R.layout.title_flip_view);
         boolean indicatorEnabled = ta.getBoolean(R.styleable.FlipView_indicatorEnabled, false);
         int indicatorLayout = ta.getResourceId(R.styleable.FlipView_indicatorLayout, R.layout.indicator_flip_view);
+        mInfiniteLoop = ta.getBoolean(R.styleable.FlipView_infiniteLoop, false);
+        mReverse = ta.getBoolean(R.styleable.FlipView_reverse, false);
         ta.recycle();
 
         mFlipper = inflateAndAttach(this, flipperLayout, R.id.flipper);
@@ -106,8 +111,8 @@ public class FlipView extends FrameLayout {
             mTitle = inflateAndAttach(this, titleLayout, R.id.title);
         }
         if (indicatorEnabled || (indicatorLayout > 0 && indicatorLayout != R.layout.indicator_flip_view)) {
-            TabLayout indicator = inflateAndAttach(this, indicatorLayout, R.id.indicator);
-            indicator.setupWithViewPager(mFlipper, true);
+            mIndicator = inflateAndAttach(this, indicatorLayout, R.id.indicator);
+            mIndicator.setupWithViewPager(mFlipper, true);
         }
         mFlipper.addOnPageChangeListener(mPageChangeListener);
     }
@@ -162,6 +167,14 @@ public class FlipView extends FrameLayout {
         return result;
     }
 
+    public void setReverse(boolean reverse) {
+        mReverse = reverse;
+    }
+
+    public boolean isReverse() {
+        return mReverse;
+    }
+
     public void setOffscreenLimit(int limit) {
         mFlipper.setOffscreenPageLimit(limit);
     }
@@ -170,7 +183,7 @@ public class FlipView extends FrameLayout {
         return mFlipper.getOffscreenPageLimit();
     }
 
-    public void setAdapter(PagerAdapter adapter) {
+    public void setAdapter(FlipAdapter adapter) {
         if (adapter == null) {
             throw new NullPointerException("adapter == null");
         }
@@ -178,6 +191,7 @@ public class FlipView extends FrameLayout {
             mAdapter.unregisterDataSetObserver(mObserver);
         }
         mAdapter = adapter;
+        mAdapter.mInfiniteLoop = mInfiniteLoop;
         mAdapter.registerDataSetObserver(mObserver);
         mFlipper.setAdapter(mAdapter);
         updateSize();
@@ -262,7 +276,8 @@ public class FlipView extends FrameLayout {
     }
 
     public void setCurrentItem(int position) {
-        mFlipper.setCurrentItem(position, false);
+        int fixed = (mInfiniteLoop && mSize > 1) ? position + 1 : position;
+        mFlipper.setCurrentItem(fixed, false);
     }
 
     private void updateItem(int offset) {
@@ -296,13 +311,34 @@ public class FlipView extends FrameLayout {
     private void updateSize() {
         mSize = mAdapter.getCount();
         if (mSize > 1) {
+            if (mInfiniteLoop) {
+                hideIndicatorIcon(0);
+                hideIndicatorIcon(mSize - 1);
+                if (mCurrent == 0) {
+                    mFlipper.setCurrentItem(1, false);
+                }
+            }
             updateRunning();
         } else {
             mRunning = false;
             removeCallbacks(mFlipRunnable);
             if (mSize == 1) {
-                mFlipper.setCurrentItem(0, true);
+                mFlipper.setCurrentItem(0, false);
             }
+        }
+    }
+
+    private void hideIndicatorIcon(int position) {
+        TabLayout.Tab tab = mIndicator.getTabAt(position);
+        if (tab != null) {
+            View customView = tab.getCustomView();
+            if (customView == null) {
+                customView = new View(getContext());
+                tab.setCustomView(customView);
+            }
+            View parent = (View) customView.getParent();
+            customView.setVisibility(View.GONE);
+            parent.setVisibility(GONE);
         }
     }
 
@@ -310,7 +346,11 @@ public class FlipView extends FrameLayout {
         @Override
         public void run() {
             if (mRunning) {
-                showNext();
+                if (mReverse) {
+                    showPrevious();
+                } else {
+                    showNext();
+                }
             }
         }
     };
@@ -334,9 +374,24 @@ public class FlipView extends FrameLayout {
             if (mTitle != null) {
                 mTitle.setText(mAdapter.getPageTitle(position));
             }
+            if (mInfiniteLoop && mSize > 1 && (position == 0 || position == mSize - 1)) {
+                return;
+            }
+            int fixedPosition = mAdapter.computeFixedPosition(position);
             if (mSelectedListeners != null) {
                 for (int i = 0, size = mSelectedListeners.size(); i < size; ++i) {
-                    mSelectedListeners.get(i).onItemSelected(position);
+                    mSelectedListeners.get(i).onItemSelected(fixedPosition);
+                }
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+            if (mInfiniteLoop && mSize > 1 && state == ViewPager.SCROLL_STATE_IDLE) {
+                if (mCurrent == mSize - 1) {
+                    mFlipper.setCurrentItem(1, false);
+                } else if (mCurrent == 0) {
+                    mFlipper.setCurrentItem(mSize - 2, false);
                 }
             }
         }

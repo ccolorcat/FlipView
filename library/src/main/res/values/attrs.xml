@@ -17,12 +17,14 @@
 <resources>
     <declare-styleable name="FlipView">
         <attr name="autoStart" format="boolean" />
-        <attr name="pauseOnTouch" format="boolean" />
         <attr name="flipInterval" format="integer" />
         <attr name="flipperLayout" format="reference" />
-        <attr name="titleEnabled" format="boolean" />
-        <attr name="titleLayout" format="reference" />
         <attr name="indicatorEnabled" format="boolean" />
         <attr name="indicatorLayout" format="reference" />
+        <attr name="infiniteLoop" format="boolean" />
+        <attr name="pauseOnTouch" format="boolean" />
+        <attr name="reverse" format="boolean" />
+        <attr name="titleEnabled" format="boolean" />
+        <attr name="titleLayout" format="reference" />
     </declare-styleable>
 </resources>

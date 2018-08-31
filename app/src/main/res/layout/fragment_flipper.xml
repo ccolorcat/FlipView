@@ -25,11 +25,13 @@
         android:layout_height="0dp"
         app:autoStart="true"
         app:indicatorEnabled="true"
+        app:infiniteLoop="true"
         app:layout_constraintDimensionRatio="16:10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:pauseOnTouch="true"
+        app:reverse="false"
         app:titleEnabled="true" />
 
 

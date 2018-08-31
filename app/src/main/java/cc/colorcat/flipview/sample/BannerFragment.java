@@ -32,9 +32,9 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-import cc.colorcat.adapter.SimpleVpAdapter;
-import cc.colorcat.adapter.VpHolder;
+import cc.colorcat.flipview.FlipHolder;
 import cc.colorcat.flipview.FlipView;
+import cc.colorcat.flipview.SimpleFlipAdapter;
 import cc.colorcat.vangogh.VanGogh;
 
 /**
@@ -69,16 +69,15 @@ public class BannerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mFlipper = view.findViewById(R.id.banner_flipper);
-        mFlipper.setAdapter(new SimpleVpAdapter<Integer>(mData, R.layout.item_banner) {
+        mFlipper.setAdapter(new SimpleFlipAdapter<Integer>(mData, R.layout.item_banner) {
             @Override
-            protected void bindView(@NonNull VpHolder holder, Integer data) {
-                Log.i(TAG, "bindView, data = " + getResources().getResourceEntryName(data));
-                VanGogh.with(holder.getRoot().getContext()).load(data).into((ImageView) holder.get(R.id.iv_banner));
+            protected void onBindView(@NonNull FlipHolder holder, Integer data) {
+                ImageView imageView = holder.get(R.id.iv_banner);
+                VanGogh.with(imageView.getContext()).load(data).into(imageView);
             }
 
-            @Nullable
             @Override
-            public CharSequence getPageTitle(int position) {
+            protected CharSequence getItemPageTitle(int position) {
                 return "one piece " + position;
             }
         });
