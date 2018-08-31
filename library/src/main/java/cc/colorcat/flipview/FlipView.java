@@ -29,7 +29,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -197,7 +196,7 @@ public class FlipView extends FrameLayout {
         updateSize();
     }
 
-    public PagerAdapter getAdapter() {
+    public FlipAdapter getAdapter() {
         return mAdapter;
     }
 
