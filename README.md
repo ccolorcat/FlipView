@@ -31,18 +31,18 @@
 (1) 在项目的 build.gradle 中配置仓库地址：
 
 ```groovy
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
 ```
 
 (2) 添加项目依赖：
 
 ```groovy
-	dependencies {
-	        implementation 'com.github.ccolorcat:FlipView:v2.0.0'
-	}
+dependencies {
+    implementation 'com.github.ccolorcat:FlipView:v2.0.0'
+}
 ```
